@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             alert.show()
             adapter.notifyDataSetChanged()
         }
-        //AlertDialog box for update, delete or cancel on item click started
+        //AlertDialog box for update, delete or cancel on item click ended
         }
 
         }

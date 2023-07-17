@@ -12,9 +12,13 @@ import android.widget.Toast
 import com.himanshu.task.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    lateinit var dialog:Dialog
     var arrayList = arrayListOf<String>()
     lateinit var binding : ActivityMainBinding
     lateinit var adapter : ArrayAdapter<String>
+    var tvValue :TextView ?= null
+    var etValue: EditText ?= null
+    var btnAdd: Button ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -22,14 +26,14 @@ class MainActivity : AppCompatActivity() {
         adapter= ArrayAdapter(this,android.R.layout.simple_list_item_1,arrayList)
         binding.listView.adapter =adapter
 
-
         //insertion in list using FAB button started
         binding.fab.setOnClickListener {
-            var dialog= Dialog(this)
+            dialog= Dialog(this)
             dialog.setCancelable(false)
             dialog.setContentView(R.layout.custom_dialog_layout)
-            var etValue=dialog.findViewById<EditText>(R.id.etValue)
-            var btnAdd=dialog.findViewById<Button>(R.id.btnAdd)
+            tvValue=dialog.findViewById<TextView>(R.id.tvValue)
+            etValue=dialog.findViewById<EditText>(R.id.etValue)
+            btnAdd=dialog.findViewById<Button>(R.id.btnAdd)
             btnAdd.setOnClickListener {
                 if (etValue.text.toString().isNullOrEmpty()) {
                     etValue.error="Please Enter the value"
@@ -44,10 +48,6 @@ class MainActivity : AppCompatActivity() {
         }
         //insertion in list using FAB button ended
 
-
-
-
-
         //AlertDialog box for update, delete or cancel on item click started
         binding.listView.setOnItemClickListener { parent, view, position, id ->
             var alert= AlertDialog.Builder(this)
@@ -55,25 +55,24 @@ class MainActivity : AppCompatActivity() {
             alert.setMessage("Do you want to update or delete value?")
             alert.setCancelable(false)
 
-
-
             // updation started
             alert.setPositiveButton("Update") { _, _ ->
-                var dialog= Dialog(this)
+                dialog= Dialog(this)
                 dialog.setCancelable(false)
-                dialog.setContentView(R.layout.update_dialog_layout)
-                var tvUpdate=dialog.findViewById<TextView>(R.id.tvUpdate)
-                var etUpdate=dialog.findViewById<EditText>(R.id.etUpdate)
-                var btnUpdate=dialog.findViewById<Button>(R.id.btnUpdate)
-                tvUpdate.setText("Update item ${arrayList[position]}")
-               // etUpdate.setHint("${arrayList[position]}")
-                etUpdate.setText("${arrayList[position]}")
-                btnUpdate.setOnClickListener {
-                    if (etUpdate.text.toString().isNullOrEmpty()) {
-                        etUpdate.error="Please Enter the value"
+                dialog.setContentView(R.layout.custom_dialog_layout)
+                tvValue=dialog.findViewById<TextView>(R.id.tvValue)
+                etValue=dialog.findViewById<EditText>(R.id.etValue)
+                btnAdd=dialog.findViewById<Button>(R.id.btnAdd)
+                tvValue.setText("Update item ${arrayList[position]}")
+                etValue.setText("${arrayList[position]}")
+                //etValue.setHint("${arrayList[position]}")
+                btnAdd.setText("Update")
+                btnAdd.setOnClickListener {
+                    if (etValue.text.toString().isNullOrEmpty()) {
+                        etValue.error="Please Enter the value"
                     }
                     else {
-                        arrayList.set(position,etUpdate.text.toString())
+                        arrayList.set(position,etValue.text.toString())
                         dialog.dismiss()
                         Toast.makeText(this, "Updated successfully", Toast.LENGTH_SHORT).show()
                     }
@@ -83,10 +82,6 @@ class MainActivity : AppCompatActivity() {
             }
             //updation ended
 
-
-
-
-
             //deletion started
             alert.setNegativeButton("Delete"){ _, _ ->
                 arrayList.removeAt(position)
@@ -95,8 +90,6 @@ class MainActivity : AppCompatActivity() {
             }
             //deletion ended
 
-
-
             alert.setNeutralButton("Cancel") { _, _ ->
                 Toast.makeText(this,"Cancelled", Toast.LENGTH_SHORT).show()
             }
@@ -104,6 +97,6 @@ class MainActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
         //AlertDialog box for update, delete or cancel on item click ended
-        }
+    }
 
-        }
+}

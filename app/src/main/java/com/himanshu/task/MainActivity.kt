@@ -34,12 +34,12 @@ class MainActivity : AppCompatActivity() {
             tvValue=dialog.findViewById<TextView>(R.id.tvValue)
             etValue=dialog.findViewById<EditText>(R.id.etValue)
             btnAdd=dialog.findViewById<Button>(R.id.btnAdd)
-            btnAdd.setOnClickListener {
-                if (etValue.text.toString().isNullOrEmpty()) {
-                    etValue.error="Please Enter the value"
+            btnAdd?.setOnClickListener {
+                if (etValue?.text.toString().isNullOrEmpty()) {
+                    etValue?.error="Please Enter the value"
                 }
                 else {
-                    arrayList.add(etValue.text.toString())
+                    arrayList.add(etValue?.text.toString())
                     dialog.dismiss()
                 }
             }
@@ -63,16 +63,16 @@ class MainActivity : AppCompatActivity() {
                 tvValue=dialog.findViewById<TextView>(R.id.tvValue)
                 etValue=dialog.findViewById<EditText>(R.id.etValue)
                 btnAdd=dialog.findViewById<Button>(R.id.btnAdd)
-                tvValue.setText("Update item ${arrayList[position]}")
-                etValue.setText("${arrayList[position]}")
-                //etValue.setHint("${arrayList[position]}")
-                btnAdd.setText("Update")
-                btnAdd.setOnClickListener {
-                    if (etValue.text.toString().isNullOrEmpty()) {
-                        etValue.error="Please Enter the value"
+                tvValue?.setText("Update item ${arrayList[position]}")
+                etValue?.setText("${arrayList[position]}")
+                //etValue?.setHint("${arrayList[position]}")
+                btnAdd?.setText("Update")
+                btnAdd?.setOnClickListener {
+                    if (etValue?.text.toString().isNullOrEmpty()) {
+                        etValue?.error="Please Enter the value"
                     }
                     else {
-                        arrayList.set(position,etValue.text.toString())
+                        arrayList.set(position,etValue?.text.toString())
                         dialog.dismiss()
                         Toast.makeText(this, "Updated successfully", Toast.LENGTH_SHORT).show()
                     }
@@ -84,6 +84,8 @@ class MainActivity : AppCompatActivity() {
 
             //deletion started
             alert.setNegativeButton("Delete"){ _, _ ->
+                var deletedValue=arrayList[position]
+                //println("$deletedValue")
                 arrayList.removeAt(position)
                 Toast.makeText(this, "Deleted successfully", Toast.LENGTH_SHORT).show()
                 adapter.notifyDataSetChanged()
